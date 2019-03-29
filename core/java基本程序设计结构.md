@@ -268,4 +268,165 @@ int i = in.nextInt();
 
 8. 格式化输出
 
-p75
+## 控制流程
+
+### 循环
+- do While 至少执行一次
+- switch case
+    - case 标签可以试
+        - 类型为char/byte/short/int的常量表达式
+        - 枚举常量
+        - 从java 7开始，还可以是字符串字面量
+
+### 中断控制流程语句
+- break语句 break语句分为带标签和不带标签，不带标签的用法和C#一样
+    - 带标签的break语句用于跳出多重嵌套的循环语句。
+    - 带标签的break语句会跳到标签那行，然后略过循环体，执行下一条语句
+    - 标签必须定义在break之前
+    ```
+    for1:
+    for(int l = 10;l<20;l++) {
+        for2:
+        for (int i = 0; i < 10; i++) {
+            System.out.println(i);
+            break for2;//跳到for2后会跳过这个循环体，执行下一行
+        }
+        System.out.println(l);
+
+    }
+    ```
+    - 如上语句，输出为0 10 0 11 ... 0 19
+
+## 大数值
+- 如果基本的整数和浮点数精度不能够满足需求，那么可以使用java.math包中的两个很有用的类：
+    - BigInteger
+    - BigDecimal
+- 这两个类可以处理包含任意长度数字序列的数值。
+- `BigInteger` 类实现了任意精度的整数运算，BigDecimal实现了任意精度的浮点数运算。
+- 使用静态的 `valueOf` 可以将普通的数值转换为大数值：
+```
+BigInteger bigInteger = BigInteger.valueOf(10);
+```
+- 遗憾的是，不能使用人们熟悉的算术运算符处理大数值。（因为java不支持运算符重载）而需要使用大数值类中的add和multiply方法。
+```
+BigInteger bigInteger = BigInteger.valueOf(10);
+BigInteger c = bigInteger.add(BigInteger.valueOf(20));
+bigInteger.multiply(c);
+```
+
+## 数组
+- 数组是一种数据结构，用来存储同一类型值的集合。
+- 声明数组
+```
+int[] a;
+```
+- 创建数组,数组长度可以是变量
+```
+int[] a = new int[100];
+```
+- 可以使用两种形式声明数组，不过一般采用第一种
+    - int[] a;
+    - int a[];
+- 创建数组的时候所有值都会被初始化为类型的默认值。
+    - 如数值类型被初始化为0
+    - 对象被初始化为null
+    - boolean 为 false
+
+### for each 循环
+- java的foreach循环：
+```
+for(variable : collection){
+
+}
+```
+- collection这一集合表达式必须是一个数组或是一个实现了Iterable接口的类对象。
+```
+int[] a = new int[100];
+for(int e : a){
+    
+}
+```
+- 注意，在foreach里不可以修改元素
+
+### 数组初始化以及匿名数组
+- 有一种创建数组对象并同时赋予初始值的简化书写形式：(和C#一致)
+```
+int[] arrays = {1,2,3,4};
+```
+- 还可以初始化一个匿名数组
+```
+small = new int[]{1,2,3,4,5};
+```
+- 注意，在java中，允许数组长度为0。在编写一个结果为数组的方法时，如果碰巧结果为空，则这种语法形式就显得非常有用。可以通过`array.length`来判断返回值。
+
+### 数组拷贝
+- 允许将一个数组变量拷贝给另一个数组变量，这时，两个变量将引用同一个数组。
+- 如果希望拷贝值到新数组，则需要使用 `Arrays.copyOf`
+```
+int[] array = new int[10];
+int[] bArray = Arrays.copyOf(array,array.length);
+```
+- 第二个参数是新数组的长度。这个方法常用来增加数组的大小：
+```
+array = Arrays.copyOf(array,array.Length * 2);
+```
+- 多余的元素的默认值和初始化一致。
+
+### 命令行参数
+- java的main方法的args参数可以通过命令行输入。
+```
+java Message -g cruel world
+```
+- args数组将包含如下内容：
+    - -g
+    - cruel
+    - world
+
+### 数组排序
+- 使用 `Arrays.sort()`排序。
+- 这个方法使用了优化的快速排序算法。Arrays类还提供了几个使用很便捷的算法。
+```
+//100选5
+int[] numbers = new int[100];
+int[] result = new int[5];
+for (int i = 0; i < 100; i++) {
+    numbers[i] = i + 1;
+}
+int n = 100;
+//抽取
+for (int i = 0; i < 5; i++) {
+    int r = (int) (Math.random() * n);
+    result[i] = numbers[r];
+    //把抽取的数替换到最后面
+    numbers[r] = numbers[n - 1];
+    n--;
+}
+Arrays.sort(result);
+System.out.println(Arrays.toString(result));
+```
+
+### 多维数组
+- 多维数组将使用多个下标访问数组元素，它适用于表示表格或更加复杂的排列形式(矩阵等)。
+- 声明二维数组的方法：
+```
+double[][] balances;//与C#刚好不一样，C#这种是交错数组(也就是不规则数组)
+double[][] example = new double[4][4];
+int[][] temp={
+    {1,2,3},
+    {2,3,4}
+}
+```
+
+### 不规则数组
+- java实际上没有多维数组，只有一维数组。多维数组被解释为`数组的数组`。
+- 不规则数组的声明方法：
+```
+int[][] temp = new int[4][];
+for(int i = 0; i < 4;i++)
+{
+    temp[i] = new int[i+1];
+}
+```
+
+
+
