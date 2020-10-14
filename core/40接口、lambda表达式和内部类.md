@@ -617,7 +617,7 @@ public void start(){
     //TimePrinter printer = new TimePrinter(this);
 }
 ```
-- TimePrinter类声明为私有的。这样一来，只有外围类才能构造该对象。只有内部类可以是四有泪，常规类只可以具有包可见性，或公有可见性。
+- TimePrinter类声明为私有的。这样一来，只有外围类才能构造该对象。只有内部类可以是私有类，常规类只可以具有包可见性，或公有可见性。
 
 ### 内部类的特殊语法规则
 
